@@ -4461,6 +4461,73 @@ Telegram
 </div>
 <!-- /Modal -->
 
+<script>
+document.addEventListener('submit', async (event) => {
+  const form = event.target;
+  
+  // Проверяем, что отправляется именно наша форма (по классу)
+  if (!form.classList.contains('wpcf7-form')) return;
+  
+  event.preventDefault(); // Стопаем перезагрузку страницы
 
+  // 1. Собираем данные из заполненных полей
+  const formData = new FormData(form);
+  const dataObject = {};
+  
+  formData.forEach((value, key) => {
+    dataObject[key] = value;
+  });
+
+  // 2. Автоматически собираем UTM и клик-ID из URL-адреса страницы
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmFields = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'];
+  
+  utmFields.forEach(field => {
+    if (urlParams.has(field)) {
+      // Для gclid и fbclid делаем поправку на регистр, как в воркере (utm_GCLID / utm_FBCLID)
+      if (field === 'gclid') dataObject['utm_GCLID'] = urlParams.get(field);
+      else if (field === 'fbclid') dataObject['utm_FBCLID'] = urlParams.get(field);
+      else dataObject[field] = urlParams.get(field);
+    }
+  });
+
+  // 3. Визуальный фидбек: блокируем кнопку, чтобы не кликали много раз
+  const submitButton = form.querySelector('[type="submit"]');
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.value = 'Отправка...';
+  }
+
+  try {
+    // 4. Отправляем данные на твой Cloudflare Worker
+    const response = await fetch('https://royal-base-9c24.arzeanin.workers.dev/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dataObject)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      // Здесь можно настроить красивое уведомление или редирект
+      alert('Спасибо! Заявка успешно отправлена.');
+      form.reset(); // Очистить форму
+    } else {
+      alert('Ошибка при отправке в CRM: ' + result.error);
+    }
+  } catch (error) {
+    alert('Не удалось связаться с сервером. Проверьте интернет-соединение.');
+    console.error('Ошибка запроса:', error);
+  } finally {
+    // Возвращаем кнопку в исходное состояние
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.value = 'Перейти в чат';
+    }
+  }
+});
+</script>
 
 </body></html>

@@ -172,6 +172,30 @@ form.submitting .wpcf7-spinner {
 	list-style: none;
 }
 
+/* ========== */
+
+/* Базовый контейнер для удобного позиционирования */
+.form-field-label {
+    display: block;
+    width: 100%;
+    position: relative;
+}
+
+/* Стили текста ошибки */
+.error-message {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none; /* Прячем по умолчанию */
+}
+
+/* Класс ошибки для инпутов */
+.form-control.input-error, 
+.customn_number.input-error {
+    border: 2px solid #ff6b6b !important;
+    background-color: rgba(255, 107, 107, 0.05) !important;
+}
+
 .wpcf7-reflection > output[hidden] {
 	display: none;
 }

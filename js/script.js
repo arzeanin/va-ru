@@ -15,33 +15,33 @@ jQuery('document').ready(function() {
 
 
 ////////////////////////
-   jQuery(".menu a").click(function() {
-    var selected = jQuery(this).attr('href');
-    jQuery.scrollTo(selected, 700, { offset: function() { return { top: -129 }; } });
-    jQuery('.menu_button').removeClass('active');
-    jQuery(".menu >li").removeClass('active');
-    jQuery(this).parents(".menu >li").addClass('active');
-    jQuery('.mobile_menu_wrapp').animate({left:'-1000px'},500);
-    return false;
-  });
+  //  jQuery(".menu a").click(function() {
+  //   var selected = jQuery(this).attr('href');
+  //   jQuery.scrollTo(selected, 700, { offset: function() { return { top: -129 }; } });
+  //   jQuery('.menu_button').removeClass('active');
+  //   jQuery(".menu >li").removeClass('active');
+  //   jQuery(this).parents(".menu >li").addClass('active');
+  //   jQuery('.mobile_menu_wrapp').animate({left:'-1000px'},500);
+  //   return false;
+  // });
 ////////////////////////
-jQuery("a.active_button").click(function() {
-    var selected = jQuery(this).attr('href');
-    jQuery.scrollTo(selected, 700, { offset: function() { return { top: -129 }; } });
-    jQuery('.menu_button').removeClass('active');
-    jQuery(".menu >li").removeClass('active');
-    jQuery(this).parents(".menu >li").addClass('active');
-    jQuery('.mobile_menu_wrapp').animate({left:'-1000px'},500);
-    return false;
-  });
+// jQuery("a.active_button").click(function() {
+//     var selected = jQuery(this).attr('href');
+//     jQuery.scrollTo(selected, 700, { offset: function() { return { top: -129 }; } });
+//     jQuery('.menu_button').removeClass('active');
+//     jQuery(".menu >li").removeClass('active');
+//     jQuery(this).parents(".menu >li").addClass('active');
+//     jQuery('.mobile_menu_wrapp').animate({left:'-1000px'},500);
+//     return false;
+//   });
 ////////////////////////
-jQuery(".scroll_to").click(function() {
-    var selected = jQuery(this).attr('href');
-    jQuery.scrollTo(selected, 700, { offset: function() { return { top: -129 }; } });
-    jQuery('.menu_button').removeClass('active');
-    jQuery(".menu >li").removeClass('active');
-    return false;
-  });
+// jQuery(".scroll_to").click(function() {
+//     var selected = jQuery(this).attr('href');
+//     jQuery.scrollTo(selected, 700, { offset: function() { return { top: -129 }; } });
+//     jQuery('.menu_button').removeClass('active');
+//     jQuery(".menu >li").removeClass('active');
+//     return false;
+//   });
 
 
     function init() {

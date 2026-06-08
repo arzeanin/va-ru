@@ -4367,5 +4367,70 @@ document.addEventListener('submit', async (event) => {
   }
 });
 </script>
+<!-- Подключаем API капчи Cloudflare -->
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById('customLeadForm');
+    if (!form) return;
+
+    // Функция проверки конкретного поля
+    function validateField(input) {
+        const label = input.closest('.form-field-label');
+        if (!label) return true;
+        
+        const errorDiv = label.querySelector('.error-message');
+        
+        // Проверяем валидность стандартными правилами (required и html-pattern)
+        if (!input.checkValidity()) {
+            input.classList.add('input-error');
+            if (errorDiv) errorDiv.style.display = 'block';
+            return false;
+        } else {
+            input.classList.remove('input-error');
+            if (errorDiv) errorDiv.style.display = 'none';
+            return true;
+        }
+    }
+
+    // Слушаем ввод текста, чтобы убирать ошибку "на лету"
+    form.querySelectorAll('input[required]').forEach(input => {
+        input.addEventListener('input', function() {
+            validateField(this);
+        });
+    });
+
+    // Перехват отправки формы
+    form.addEventListener("submit", function (event) {
+        let isFormValid = true;
+
+        // 1. Проверяем текстовые обязательные поля
+        form.querySelectorAll('input[required]').forEach(input => {
+            if (!validateField(input)) {
+                isFormValid = false;
+            }
+        });
+
+        // 2. Проверяем капчу Cloudflare Turnstile
+        const turnstileResponse = form.querySelector('[name="cf-turnstile-response"]');
+        if (!turnstileResponse || !turnstileResponse.value) {
+            event.preventDefault(); // Стопаем отправку
+            alert("Пожалуйста, подтвердите, что вы не робот (пройдите капчу Cloudflare).");
+            return false;
+        }
+
+        // Если валидация полей провалена — не отправляем форму
+        if (!isFormValid) {
+            event.preventDefault();
+            // Скроллим к первому ошибочному элементу для удобства
+            const firstError = form.querySelector('.input-error');
+            if (firstError) firstError.focus();
+            return false;
+        }
+        
+        // Если всё ок — форма отправляется дальше на твой обработчик/редирект
+    });
+});
+</script>
 </body></html>

@@ -3894,9 +3894,12 @@ main02.on('slideChange', () => {
 </script>
 
 <script>
-  ///////////////////////////
 document.addEventListener("DOMContentLoaded", function () {
   const imgCont = document.querySelector(".grafic_body .img_cont");
+
+  // Если на этой странице вообще нет блока .img_cont, 
+  // останавливаем выполнение скрипта, чтобы не плодить ошибки в консоли
+  if (!imgCont) return; 
 
   // слушаем все input внутри ac_container
   document.querySelectorAll(".grafic_body .ac_container input[type=checkbox]").forEach(input => {
@@ -3919,12 +3922,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // при загрузке страницы тоже установить правильный id
   const checkedInput = document.querySelector(".grafic_body .ac_container input[type=checkbox]:checked");
-  if (checkedInput) {
+  if (checkedInput && checkedInput.id) { // добавили проверку и сюда
     const num = checkedInput.id.split("_")[1];
     imgCont.id = "bg_" + num;
   }
 });
 </script>
+	
 <div class="vm-popup-overlay" id="videoPopup">
   <div class="vm-popup">
     <span class="close-btn" id="closePopup">×</span>
